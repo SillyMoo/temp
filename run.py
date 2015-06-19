@@ -5,17 +5,19 @@ import gzip
 import shutil
 from ftplib import FTP
 
-if len(sys.argv) < 4:
-    print("Syntax: %s <config file> <working directory> <output directory>", (sys.argv[0]))
+if len(sys.argv) < 5:
+    print("Syntax: %s <ip_addr> <config file> <working directory> <output directory>", (sys.argv[0]))
+    print("    <ip_addr>            The ip address of the server to retrieve logs from")
     print("    <config file>        The file to store configuration in.")
     print("    <working directory>  The directory to donload zipped files into before")
     print("                         unzipping them and importing them.")
     print("    <output directory>   The directory to store unzipped files into.")
     quit()
 
-cfg_file = sys.argv[1]
-work_dir = sys.argv[2]
-out_dir = sys.argv[3]
+ip_addr = sys.argv[1]
+cfg_file = sys.argv[2]
+work_dir = sys.argv[3]
+out_dir = sys.argv[4]
 
 
 def process_files(file_list, last_log_date, last_log_index):
@@ -89,7 +91,7 @@ while 1:
     zipfile_list = []
 
     try:
-        ftp = FTP("10.148.68.105", "hackit", "hackit!")
+        ftp = FTP(ip_addr, "hackit", "hackit!")
     except ftplib.all_errors:
         print("Error connecting to FTP server.")
     else:
